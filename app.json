@@ -1,16 +1,22 @@
 {
   "addons": [
-
+    "heroku-postgresql:hobby-basic"
   ],
   "buildpacks": [
-
+    {
+      "url": "heroku/ruby"
+    }
   ],
   "env": {
+    "STAGING_DATABASE_URL": {
+      "required": true
+    }
   },
   "formation": {
   },
   "name": "Math115",
   "scripts": {
+    "postdeploy": "pg_dump $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rails db:migrate"
   },
   "stack": "heroku-18"
 }
